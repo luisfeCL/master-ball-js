@@ -1,50 +1,85 @@
 # master-ball-js
 
-Librería npm para utilidades JS con temática Master Ball.
+A lightweight, configurable web scraping library with declarative schema extraction.
 
-## Instalación
-
+## Installation
 ```bash
 npm install master-ball-js
 ```
 
-## Uso
+## Usage
+```typescript
+import { scrape } from 'master-ball-js';
 
-### CommonJS
+const result = await scrape({
+  url: 'https://example.com',
+  schema: {
+    title:  { selector: 'h1',          extract: 'text' },
+    image:  { selector: 'img.hero',    extract: 'attr:src' },
+    tags:   { selector: '.tag',        extract: 'text', multiple: true },
+  },
+});
 
-```js
-const { capturarPokemon } = require('master-ball-js');
-console.log(capturarPokemon('Pikachu'));
+console.log(result.data);
+console.log(result.meta);
 ```
 
-### ES Modules / TypeScript
+## Schema
 
-```ts
-import { capturarPokemon } from 'master-ball-js';
-console.log(capturarPokemon('Pikachu'));
+Each field in the schema describes how to extract a single piece of data from the HTML.
+
+| Property   | Type                          | Description                                      |
+|------------|-------------------------------|--------------------------------------------------|
+| `selector` | `string`                      | CSS selector pointing to the element             |
+| `extract`  | `'text' \| 'html' \| 'attr:x'` | What to extract — text content, inner HTML, or an attribute value |
+| `multiple` | `boolean`                     | If true, returns an array with all matching elements |
+
+## Configuration
+```typescript
+const result = await scrape({
+  url: 'https://example.com',
+  schema: { ... },
+  headers: { 'Accept-Language': 'ja' },  // custom HTTP headers
+  timeout: 15000,                         // timeout in ms (default: 10000)
+  pagination: {
+    nextSelector: 'a.next',              // CSS selector for the "next page" link
+    maxPages: 5,                         // max pages to visit (default: 10)
+    delay: 1000,                         // delay between pages in ms (default: 1000)
+  },
+});
 ```
 
-## Scripts
+## Result
+```typescript
+{
+  url: 'https://example.com',
+  data: [
+    { title: 'Hello World', image: '/img/hero.jpg', tags: ['news', 'tech'] }
+  ],
+  meta: {
+    scrapedAt: Date,
+    durationMs: 342,
+    pagesVisited: 1,
+  }
+}
+```
 
-- `npm test`: ejecuta tests con Jest
-- `npm run build`: transpila `src` a `dist` con Babel
-- `npm run clean`: elimina `dist`
+## Multiple URLs
+```typescript
+const result = await scrape({
+  url: [
+    'https://example.com/page/1',
+    'https://example.com/page/2',
+  ],
+  schema: { ... },
+});
+```
 
-## Estructura
+## Notes
 
-- `src/`: código fuente
-- `dist/`: archivos generados (build)
-- `test/`: tests
-- `package.json`: metadatos y scripts
+- Images are not downloaded — the library extracts the URL. Download them separately if needed.
+- For JavaScript-rendered pages (SPAs), Playwright support is planned as an optional dependency.
 
-## Contribuir
-
-1. Clona el repo
-2. `npm install`
-3. `npm test`
-4. `npm run build`
-
-## Licencia
+## License
 
 MIT
-

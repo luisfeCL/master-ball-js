@@ -4,20 +4,20 @@ async function main() {
     const result = await scrape({
         url: 'https://pokecabook.com/archives/26148',
         schema: {
-        title: {
-            selector: 'h1',
-            extract: 'text',
-        },
-        images: {
-            selector: 'img.lozad-img',
-            extract: 'attr:data-src',
-            multiple: true,
-        },
-        content: {
-            selector: '.entry-content p',
-            extract: 'text',
-            multiple: true,
-        },
+            title: {
+                selector: 'h1',
+                extract: 'text',
+            },
+            images: {
+                selector: 'img.lozad-img',
+                extract: 'attr:data-src',
+                multiple: true,
+            },
+            content: {
+                selector: '.entry-content p',
+                extract: 'text',
+                multiple: true,
+            },
         },
     });
 
