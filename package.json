@@ -1,0 +1,49 @@
+{
+  "name": "master-ball-js",
+  "version": "0.1.0",
+  "description": "Configurable web scraping library with declarative schema extraction",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc --build",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepublishOnly": "npm test && npm run build",
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisfecl/master-ball-js.git"
+  },
+  "keywords": [
+    "scraper",
+    "web-scraping",
+    "html-parser",
+    "cheerio",
+    "schema",
+    "declarative"
+  ],
+  "author": "Luisfe Camacho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luisfecl/master-ball-js/issues"
+  },
+  "homepage": "https://github.com/luisfecl/master-ball-js#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}
